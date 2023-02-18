@@ -183,6 +183,6 @@ Result:<br>
 
 ****
 ## References
-1. oshua Abbott, Phyllis Z. Chinn, Tyler Evans, Allen J. Stewart Humboldt State University, Arcata, California, ***Graph Adjacency Matrix Automata*** <br>
+1. Joshua Abbott, Phyllis Z. Chinn, Tyler Evans, Allen J. Stewart Humboldt State University, Arcata, California, ***Graph Adjacency Matrix Automata*** <br>
   (https://cocosci.princeton.edu/josh/papers/gama.pdf) <br>
 2. Lecture Presentations
