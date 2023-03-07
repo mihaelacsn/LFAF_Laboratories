@@ -124,8 +124,30 @@ def display_table(self):
     return transition_df
 ```
 ****
-## Conclusion/Results
+## Results
+Results for the 15th Variant:
+```
+set_of_states = ['q0', 'q1', 'q2']
+alphabet = ['a', 'b']
+final_state = ['q2']
+transitions = [
+    [('q0', 'a'), 'q0'],
+    [('q1', 'b'), 'q2'],
+    [('q0', 'a'), 'q1'],
+    [('q2', 'a'), 'q2'],
+    [('q2', 'b'), 'q3'],
+    [('q2', 'c'), 'q0'],
+]
+```
+is:
 
+|             | a           | b        |
+| ----------- | ----------- |----------|
+| q0          | [q0, q1]    |  None    |
+| q1          | q2          |  None    |
+| q2          | q2          |   q3     |
+| q0q1        | [q0, q1]    |   q2     |
+| q3          | None        |  None    |
 
 ****
 ## References
