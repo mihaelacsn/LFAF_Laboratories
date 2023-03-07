@@ -6,16 +6,21 @@
 ## Theory
 Some notions I found important and useful: <br>
 
-**Automaton** <br> - mathematical model for finite-state machines.
+**Automaton** - mathematical model for finite-state machines.
 <br>
+
 **Determinism** (in automata theory) - when the result of the transition from one state to another depends on the input. 
 <br>
+
 **Finite Automata** - machine that recognize patterns within input taken from alphabet and accept it or reject it.
 <br>
+
 **Deterministic finite automaton (DFA)** - type of finite state machine that accepts or rejects an input string based on a set of states and transitions between those states.
 <br>
+
 **Non-Deterministic finite automaton (NDFA)** - type of finite state machine, but unlike DFA, it can transition to multiple states at the same time for a given input symbol.
 <br>
+
 **Chomsky hierarchy** - a hierarchy of four types of formal grammars (Type 0, Type 1, Type 2 and Type 3).
 ****
 ## Objectives
