@@ -106,7 +106,7 @@ class NFAtoDFA:
 
 
 set_of_states = ['q0', 'q1', 'q2']
-input_alphabet = ['a', 'b']
+alphabet = ['a', 'b']
 final_state = ['q2']
 transitions = [
     [('q0', 'a'), 'q0'],
@@ -117,7 +117,7 @@ transitions = [
     [('q2', 'c'), 'q0'],
 ]
 
-nfa = NFAtoDFA(set_of_states, input_alphabet, final_state, transitions)
+nfa = NFAtoDFA(set_of_states, alphabet, final_state, transitions)
 
 nfa.get_transitions()
 nfa.transform_to_dfa()
