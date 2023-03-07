@@ -39,20 +39,89 @@ Some notions I found important and useful: <br>
     d. Represent the finite automaton graphically (Optional, and can be considered as a bonus point):
 ****
 ## Implementation
+This code defines a class NFAtoDFA which transforms a Non-Deterministic Finite Automaton (NFA) into a Deterministic Finite Automaton (DFA). The code initializes the NFA with its attributes including a set of states, input alphabet, a final state, and transition function. It then initializes the DFA attributes with an empty transition function and an empty set of states. The code also provides methods to update the DFA attributes for the transformation process and to display the resulting transition table.
+<br>
+
+The __init_transformation() method is called to perform the transformation process. It updates the set of states and transition function for the DFA based on the NFA transition function. It then updates the final states of the DFA. The get_transitions() method is used to get the NFA transition function if it is not already provided during initialization.
 ```
+def __init_transformation(self):
+    self.set_of_states_dfa = self.set_of_states.copy()
+    for state in self.set_of_states:
+        for value in self.input_alphabet:
+            if (state, value) in self.dict_transitions:
+                if isinstance(self.dict_transitions[(state, value)], list):
+                    self.set_of_states_dfa.append(self.dict_transitions[(state, value)])
 
-
-   
+    self.dict_transitions_dfa = self.dict_transitions.copy()
+    for i in range(len(self.set_of_states_dfa)):
+        if isinstance(self.set_of_states_dfa[i], list):
+            for value in self.input_alphabet:
+                new_state = set()
+                for state in self.set_of_states_dfa[i]:
+                    if (state, value) in self.dict_transitions:
+                        if isinstance(self.dict_transitions[(state, value)], list):
+                            new_state.update(set(self.dict_transitions[(state, value)]))
+                        else:
+                            new_state.update(set([self.dict_transitions[(state, value)]]))
+                if new_state:
+                    self.dict_transitions_dfa[(''.join(self.set_of_states_dfa[i]), value)] = sorted(new_state) if len(new_state) > 1 else new_state.pop()  
 ```
-
+The __update_states(), __update_transitions(), and __update_final_states() methods are used to update the DFA attributes during the transformation process. The transform_to_dfa() method performs the transformation process by calling the __init_transformation() method and then updating the DFA attributes until no more new states are added to the DFA set of states.
 ```
+def __update_states(self):
+        for transition in self.dict_transitions_dfa:
+            if self.dict_transitions_dfa[transition] not in self.set_of_states_dfa:
+                self.set_of_states_dfa.append(self.dict_transitions_dfa[transition])
 
+def __update_transitions(self):
+    for i in range(len(self.set_of_states_dfa)):
+        if isinstance(self.set_of_states_dfa[i], list):
+            for value in self.input_alphabet:
+                temp = set()
+                for state in self.set_of_states_dfa[i]:
+                    if (state, value) in self.dict_transitions_dfa:
+                        if isinstance(self.dict_transitions_dfa[(state, value)], list):
+                            temp.update(set(self.dict_transitions_dfa[(state, value)]))
+                        else:
+                            temp.update(set([self.dict_transitions_dfa[(state, value)]]))
+                if temp:
+                    self.dict_transitions_dfa[(''.join(self.set_of_states_dfa[i]), value)] = sorted(temp) if len(temp) > 1 else temp.pop()
+
+def __update_final_states(self):
+    for i in range(len(self.set_of_states_dfa)):
+        self.set_of_states_dfa[i] = ''.join(self.set_of_states_dfa[i])
+
+    for state in self.set_of_states_dfa:
+        if self.final_state[0] in state and state not in self.final_state:
+            self.final_state.append(state)
 ```
+The __update_final_states() method checks which states in the DFA contain the original final state from the NFA and adds them to the final states of the DFA. The transform_to_dfa() method converts the NFA to a DFA by looping through all possible combinations of states in the DFA and updating the set of states and transitions until no more changes occur.
+<br>
 ```
+def transform_to_dfa(self):
+        self.__init_transformation()
+        for i in range(math.factorial(len(self.set_of_states))):
+            self.__update_states()
+            self.__update_transitions()
+        self.__update_final_states()
+```
+The display_table() method is used to display the resulting DFA transition table as a Pandas DataFrame.
+```       
+def display_table(self):
+    transition_table = []
+    for state in self.set_of_states_dfa:
+        transition_table.append([])
+        for value in self.input_alphabet:
+            if (state, value) in self.dict_transitions_dfa:
+                transition_table[-1].append(self.dict_transitions_dfa[(state, value)])
 
+    transition_df = pd.DataFrame(
+        transition_table,
+        columns=self.input_alphabet,
+        index=self.set_of_states_dfa
+    )
 
-         
-
+    return transition_df
 ```
 ****
 ## Conclusion/Results
@@ -61,4 +130,4 @@ Some notions I found important and useful: <br>
 ****
 ## References
 1. Lecture Presentations
-2. Is ChatGPT a reference?
+2. Is (desperately) googling and my collegue patience to help a reference?
